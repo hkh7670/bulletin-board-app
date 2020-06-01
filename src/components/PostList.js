@@ -21,12 +21,20 @@ class PostList extends Component {
     handleSaveData = (data) => {
         this.setState({
             boards: this.state.boards.concat({
-                no: this.state.maxNo++,
+                no: (this.state.maxNo += 1),
                 date: new Date(),
                 ...data,
             }),
         });
     };
+
+    handleRemove = (no) => {
+        this.setState({
+            boards: this.state.boards.filter((row) => row.no !== no),
+        });
+    };
+    handleSelectRow = (no) => {};
+
     render() {
         const { boards } = this.state;
         return (
@@ -39,7 +47,12 @@ class PostList extends Component {
                             <td width="100">Name</td> <td width="100">Date</td>
                         </tr>
                         {boards.map((row) => (
-                            <PostItem key={row.no} row={row} />
+                            <PostItem
+                                key={row.no}
+                                row={row}
+                                onRemove={this.handleRemove}
+                                onSelectRow={this.handleSelectRow}
+                            />
                         ))}
                     </tbody>
                 </table>
